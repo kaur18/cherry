@@ -8,25 +8,31 @@ import { Typography } from '@mui/material';
 const label = { inputProps: { 'aria-label': 'Checkbox' } };
 
 const GenEdSelector = () => {
+  const genEds = [
+    "Advanced Composition",
+    "Western/Comparative Culture",
+    "Non-Western Culture",
+    "US Minority Culture",
+    "Humanities and the Arts ",
+    "Natural Science and Technology",
+    "Quantitative Reasoning",
+    "Social and Behavioral Sciences"
+  ]
+
   return (
-    <Card sx={{margin:2}}>
+    <Card sx={{ margin: 2 }}>
       <CardContent>
-      <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
-        Gen Eds
-      </Typography>
-      <FormGroup>
-      <FormControlLabel control={<Checkbox />} label="Advanced Composition" />
-      <FormControlLabel control={<Checkbox />} label="Western/Comparative Culture" />
-      <FormControlLabel control={<Checkbox />} label="Non-Western Culture" />
-      <FormControlLabel control={<Checkbox />} label="US Minority Culture" />
-      <FormControlLabel control={<Checkbox />} label="Humanities and the Arts " />
-      <FormControlLabel control={<Checkbox />} label="Natural Science and Technology" />
-      <FormControlLabel control={<Checkbox />} label="Quantitative Reasoning" />
-      <FormControlLabel control={<Checkbox />} label="Social and Behavioral Sciences" />
-    </FormGroup>
-    </CardContent>
+        <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
+          Gen Eds
+        </Typography>
+        <FormGroup>
+          { genEds.map(genEd =>
+            <FormControlLabel control={<Checkbox />} label={genEd} />
+          )}
+        </FormGroup>
+      </CardContent>
     </Card>
-    
+
   );
 }
 
