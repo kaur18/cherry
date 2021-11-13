@@ -4,10 +4,21 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Card, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
-
+import { useState } from 'react'
 const label = { inputProps: { 'aria-label': 'Checkbox' } };
 
 const GenEdSelector = () => {
+  const [geneds, setGenEds] = useState({
+    "Advanced Composition": false,
+    "Western/Comparative Culture": false,
+    "Non-Western Culture": false,
+    "US Minority Culture": false,
+    "Humanities and the Arts ": false,
+    "Natural Science and Technology": false,
+    "Quantitative Reasoning": false,
+    "Social and Behavioral Sciences": false
+  });
+
   const genEds = [
     "Advanced Composition",
     "Western/Comparative Culture",
@@ -19,6 +30,13 @@ const GenEdSelector = () => {
     "Social and Behavioral Sciences"
   ]
 
+  const checkBoxUpdate = (genedName) => {
+    return (event) => {
+      geneds[genedName] = event.target.checked;
+      console.log(geneds);
+    }
+  }
+
   return (
     <Card sx={{ margin: 2 }}>
       <CardContent>
@@ -27,7 +45,7 @@ const GenEdSelector = () => {
         </Typography>
         <FormGroup>
           { genEds.map(genEd =>
-            <FormControlLabel control={<Checkbox />} label={genEd} />
+            <FormControlLabel control={<Checkbox />} label={genEd} onChange={checkBoxUpdate(genEd)} checked={geneds.genEd}/>
           )}
         </FormGroup>
       </CardContent>
