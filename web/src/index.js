@@ -22,7 +22,7 @@ ReactDOM.render(
     <Router>
       <ThemeProvider theme={themeOptions}>
         <NavBar />
-        <div style={{ paddingLeft: "50px", paddingTop:"20px" }}>
+        <div style={{ paddingLeft: 50, paddingTop:60 }}>
           <App />
         </div>
       </ThemeProvider>
