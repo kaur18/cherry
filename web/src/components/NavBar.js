@@ -1,49 +1,94 @@
 import React from "react";
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { AppBar, Toolbar } from "@mui/material";
-
+import Button from '@mui/material/Button';
+import { AppBar, Toolbar, useMediaQuery } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import { withRouter } from 'react-router-dom';
 
 const NavBar = (props) => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (url) => {
+        return () => {
+            setAnchorEl(null);
+            if (url) {
+                props.history.push(url);
+            }
+        }
+    };
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     const navStyle = {
         display: 'flex',
-        justifyContent: 'space-around',
-        alignContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: '#0E0063',
         color: 'white',
+        gap: '15px',
     };
 
     const navLinkStyle = {
-        paddingLeft: 15,
+        paddingRight: '20px',
+        paddingLeft: '20px',
         display: 'flex',
-        paddingRight: 15
     }
 
-    const navVariant = "h6";
 
     return (
         <>
-            <AppBar position="fixed">
-                <Toolbar sx={navStyle}>
-                    <Typography variant="h4" sx={navLinkStyle}>Cherry</Typography>
-                    <Link href="/home" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Home</Link>
-                    <Link href="/analytics" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Analytics</Link>
-                    <Link href="/about" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>About</Link>
-                    {/* <Link href="/login" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Login</Link> */}
-                </Toolbar>
-            </AppBar>
+            {isMobile ?
+                <AppBar position='fixed'>
+                    <Toolbar sx={navStyle}>
+                        <Link href="/" sx={{ flexGrow: 1 }} underline='none' color='white'>
+                            <Typography variant="h4" >
+                                Cherry
+                            </Typography>
+                        </Link>
+                        <IconButton
+                            size="large"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={handleMenu}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose(null)}
+                        >
+                            <MenuItem onClick={handleClose('/about')}>About</MenuItem>
+                            <MenuItem onClick={handleClose('/analytics')}>Analytics</MenuItem>
+                        </Menu>
+                    </Toolbar>
+                </AppBar>
+                :
+                <AppBar position="fixed">
+                    <Toolbar sx={navStyle}>
+                        <Link href="/" sx={{ flexGrow: 1 }} underline='none' color='white'>
+                            <Typography variant="h4" >
+                                Cherry
+                            </Typography>
+                        </Link>
+                        <Button href="/analytics" underline="none" color='inherit' sx={navLinkStyle}>Analytics</Button>
+                        <Button href="/about" underline="none" color='inherit' sx={navLinkStyle}>About</Button>
+                    </Toolbar>
+                </AppBar>
+            }
         </>
     )
 }
 
-export default NavBar;
-
-/** <Box sx={navStyle}>
-        <Typography variant="h4" sx={navLinkStyle}>Cherry</Typography>
-        <Link href="/home" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Home</Link>
-        <Link href="/analytics" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Analytics</Link>
-        <Link href="/about" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>About</Link>
-        <Link href="/login" underline="none" color='inherit' sx={navLinkStyle} variant={navVariant}>Login</Link>
- */
+export default withRouter(NavBar);
